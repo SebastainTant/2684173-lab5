@@ -7,10 +7,10 @@ app.listen(PORT, () => {
     console.log("Server Listening on PORT:", PORT);
   });
 
-app.get("/status", (request, response) => {
+app.get("/whoami", (request, response) => {
     const status = {
-       "Status": "Running"
+       studentNumber: "response"
     };
     
-    response.send(status);
+    response.json(status);
  });
