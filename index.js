@@ -50,7 +50,7 @@ app.get("/whoami", (request, response) => {
     const book = books.find(xd => xd.id === parseInt(request.params.id)); 
 
     if (book) {
-        response.send(book);  
+        response.json(book);  
     } else {
         response.status(404).json({ error: "Not Found" }); 
     }
@@ -59,8 +59,19 @@ app.get("/whoami", (request, response) => {
 app.post("/books", (request, response) => {
     const {id,title,details} = request.body;  
     
-    if (!id || !title || !details || !Array.isArray(details)) {
+    if (!id ) {
       return response.status(400).json({ error: "Missing required book details" });
+    }
+
+    if(!title){
+        return response.status(400).json({ error: "Missing required book details" });
+    }
+
+    if(!detials){
+        return response.status(400).json({ error: "Missing required book details" });
+    }
+    if(!Array.isArray(details)){
+        return response.status(400).json({ error: "Missing required book details" });
     }
   
     const newBook = {
@@ -80,6 +91,7 @@ app.put("/books/:id", (request,response)=>{
     const btitle = request.params.title;
     const bdet = request.params.details;
     const bookIndex = books.findIndex(xd => xd.id === bid);
+    
 
     if (!title){
         return response.status(400).json({ error: "Not found" });
@@ -114,7 +126,7 @@ app.delete("/books/:id",(request,response)=>{
 
     
     if(bind === -1){
-        response.status(404).json({error : "Not FOund"} );
+       return response.status(404).json({error : "Not FOund"} );
     }
     books.splice(bind, 1);
     response.json({ message:"Book deleted"});
@@ -125,7 +137,7 @@ app.post("/books/:id/details", (request, response) => {
     const bid = request.params.id;
     const book = books.find(xd =>xd.id === bid);
     if(!book){
-        response.status(404)({error: "Not found"});
+        return response.status(404)({error: "Not found"});
     }
 
 
@@ -140,7 +152,7 @@ app.delete("/books/:id/details/:detailId", (request,response)=>{
     const bid = request.params.id;
     const book = books.find(xd =>xd.id === bid);
     if(!book){
-        response.status(404)({error: "Not found"});
+        return response.status(404)({error: "Not found"});
     }
 
     const newD = [];
